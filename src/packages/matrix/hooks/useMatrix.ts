@@ -14,21 +14,14 @@ export function useMatrix() {
     );
 
     return {
-
         matrix,
-
         setMatrix,
-
         resize:(r:number,c:number)=>{
-
             setMatrix(m=>resizeMatrix(m,r,c));
-
         },
 
         updateCell:(id:string,data:any)=>{
-
             setMatrix(m=>updateCell(m,id,data));
-
         },
 
         updateXAxis:(data:any)=>{
@@ -38,17 +31,11 @@ export function useMatrix() {
         },
 
         updateYAxis:(data:any)=>{
-
             setMatrix(m=>updateYAxis(m,data));
-
         },
 
         reset:()=>{
-
             setMatrix(createMatrix());
-
         }
-
     };
-
 }

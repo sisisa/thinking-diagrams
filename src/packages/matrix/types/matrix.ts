@@ -26,41 +26,24 @@ export interface MatrixAxis {
 }
 
 export interface MatrixCell {
-
   id: string;
-
   row: number;
-
   col: number;
-
   title: string;
-
-  description?: string;
-
+  details: string[];
 }
 
 export interface MatrixLayout {
-
   rows: number;
-
   cols: number;
-
   cellWidth: number;
-
   cellHeight: number;
-
 }
 
 export interface MatrixData {
-
   title: string;
-
   xAxis: MatrixAxis;
-
   yAxis: MatrixAxis;
-
   layout: MatrixLayout;
-
   cells: MatrixCell[];
-
 }

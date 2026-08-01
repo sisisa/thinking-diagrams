@@ -11,7 +11,7 @@ export function createMatrix(rows = 2, cols = 2): MatrixData {
         row,
         col,
         title: "",
-        description: "",
+        details: [],
       });
     }
   }
