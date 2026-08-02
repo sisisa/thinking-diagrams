@@ -23,8 +23,8 @@ export function resizeMatrix(
           id: crypto.randomUUID(),
           row,
           col,
-          title: "",
-          details: [],
+          detail1: "",
+          detail2: "",
         });
       }
     }

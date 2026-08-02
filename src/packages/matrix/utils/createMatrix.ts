@@ -10,14 +10,14 @@ export function createMatrix(rows = 2, cols = 2): MatrixData {
         id: crypto.randomUUID(),
         row,
         col,
-        title: "",
-        details: [],
+        detail1: "",
+        detail2: "",
       });
     }
   }
 
   return {
-    title: "新しいマトリクス",
+    main_title: "作成するマトリクス名",
 
     xAxis: {
       id: "x",

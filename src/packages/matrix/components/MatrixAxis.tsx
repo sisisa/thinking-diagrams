@@ -1,13 +1,10 @@
 "use client";
 
 import { MatrixAxis as MatrixAxisType } from "../types/matrix";
-
 interface MatrixAxisProps {
   axis: MatrixAxisType;
   direction: "x" | "y";
-  onUpdate: (
-    values: Partial<MatrixAxisType>
-  ) => void;
+  onUpdate: (values: Partial<MatrixAxisType>) => void;
 }
 
 export default function MatrixAxis({
@@ -15,42 +12,38 @@ export default function MatrixAxis({
   direction,
   onUpdate,
 }: MatrixAxisProps) {
-  return (
-    <div
-      className={
-        direction === "x"
-          ? "flex flex-col items-center gap-2"
-          : "flex flex-col justify-between h-full min-h-80"
-      }
-    >
+  // X軸
+  if (direction === "x") {
+    return (
+      <div className="flex flex-col gap-3">
+        {/* Perspective名 */}
+        <input
+          className="w-48 mx-auto grid place-items-center rounded px-2 py-1 text-center font-bold"
+          placeholder="Perspective"
+          value={axis.name}
+          onChange={(e) =>
+            onUpdate({
+              name: e.target.value,
+            })
+          }
+        />
 
-      <input
-        className="w-full rounded border px-2 py-1 text-center font-bold"
-        placeholder="Perspective"
-        value={axis.name}
-        onChange={(e) =>
-          onUpdate({
-            name: e.target.value,
-          })
-        }
-      />
+        {/* Perspectiveの説明 */}
+        <input
+          className="px-2 py-1 text-center font-bold"
+          placeholder="説明"
+          value={axis.description}
+          onChange={(e) =>
+            onUpdate({
+              description: e.target.value,
+            })
+          }
+        />
 
-      <input
-        className="w-full rounded border px-2 py-1 text-center text-sm"
-        placeholder="説明"
-        value={axis.description}
-        onChange={(e) =>
-          onUpdate({
-            description: e.target.value,
-          })
-        }
-      />
-
-      {direction === "x" ? (
-        <div className="flex justify-between gap-4 w-full">
-
+        {/* 左右ラベル */}
+        <div className="grid grid-cols-2 gap-4">
           <input
-            className="flex-1 rounded border px-2 py-1 text-center"
+            className="px-2 py-1 text-center"
             placeholder="左ラベル"
             value={axis.startLabel}
             onChange={(e) =>
@@ -61,7 +54,7 @@ export default function MatrixAxis({
           />
 
           <input
-            className="flex-1 rounded border px-2 py-1 text-center"
+            className="px-2 py-1 text-center"
             placeholder="右ラベル"
             value={axis.endLabel}
             onChange={(e) =>
@@ -70,36 +63,99 @@ export default function MatrixAxis({
               })
             }
           />
-
         </div>
-      ) : (
-        <div className="flex flex-col gap-4">
+      </div>
+    );
+  }
 
-          <input
-            className="rounded border px-2 py-1 text-center"
-            placeholder="上ラベル"
-            value={axis.endLabel}
-            onChange={(e) =>
-              onUpdate({
-                endLabel: e.target.value,
-              })
-            }
-          />
+  // Y軸
+  return (
+    <div
+      className="grid gap-3"
+      style={{
+        gridTemplateColumns: "56px 56px 72px",
+      }}
+    >
+      {/* 
+          1列目：Perspective
+      */}
+      <textarea
+        className="resize-none p-2 text-center font-bold"
+        style={{
+          writingMode: "vertical-rl",
+          textOrientation: "upright",
+          height: "400px",
+          width: "48px",
+        }}
+        placeholder="Perspective"
+        value={axis.name}
+        onChange={(e) =>
+          onUpdate({
+            name: e.target.value,
+          })
+        }
+      />
 
-          <input
-            className="rounded border px-2 py-1 text-center"
-            placeholder="下ラベル"
-            value={axis.startLabel}
-            onChange={(e) =>
-              onUpdate({
-                startLabel: e.target.value,
-              })
-            }
-          />
+      {/* 
+          2列目：説明
+       */}
+      <textarea
+        className="resize-none p-2 text-center font-bold"
+        style={{
+          writingMode: "vertical-rl",
+          textOrientation: "upright",
+          height: "400px",
+          width: "48px",
+        }}
+        placeholder="説明"
+        value={axis.description}
+        onChange={(e) =>
+          onUpdate({
+            description: e.target.value,
+          })
+        }
+      />
 
-        </div>
-      )}
+      {/* 
+          3列目：上ラベル・下ラベル
+       */}
+      <div className="flex flex-col justify-between gap-3">
+        {/* 上ラベル */}
+        <textarea
+          className="text-lg resize-none p-2 text-center"
+          style={{
+            writingMode: "vertical-rl",
+            textOrientation: "upright",
+            height: "100px",
+            width: "48px",
+          }}
+          placeholder="上ラベル"
+          value={axis.endLabel}
+          onChange={(e) =>
+            onUpdate({
+              endLabel: e.target.value,
+            })
+          }
+        />
 
+        {/* 下ラベル */}
+        <textarea
+          className="text-lg resize-none p-2 text-center"
+          style={{
+            writingMode: "vertical-rl",
+            textOrientation: "upright",
+            height: "100px",
+            width: "48px",
+          }}
+          placeholder="下ラベル"
+          value={axis.startLabel}
+          onChange={(e) =>
+            onUpdate({
+              startLabel: e.target.value,
+            })
+          }
+        />
+      </div>
     </div>
   );
 }

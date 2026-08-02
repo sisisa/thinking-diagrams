@@ -29,8 +29,8 @@ export interface MatrixCell {
   id: string;
   row: number;
   col: number;
-  title: string;
-  details: string[];
+  detail1: string;
+  detail2: string;
 }
 
 export interface MatrixLayout {
@@ -41,7 +41,7 @@ export interface MatrixLayout {
 }
 
 export interface MatrixData {
-  title: string;
+  main_title: string;
   xAxis: MatrixAxis;
   yAxis: MatrixAxis;
   layout: MatrixLayout;

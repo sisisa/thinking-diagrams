@@ -7,8 +7,8 @@ interface MatrixCellProps {
   onUpdate: (
     id: string,
     data: {
-      title?: string;
-      details?: string[];
+      detail1?: string;
+      detail2?: string;
     }
   ) => void;
 }
@@ -17,45 +17,33 @@ export default function MatrixCell({
   cell,
   onUpdate,
 }: MatrixCellProps) {
-  const updateTitle = (title: string) => {
+  const updateDetail1 = (detail1: string) => {
     onUpdate(cell.id, {
-      title,
+      detail1,
     });
   };
 
-  const updateDetail = (index: number, value: string) => {
-    const details = [...cell.details];
-    details[index] = value;
-
+  const updateDetail2 = (detail2: string) => {
     onUpdate(cell.id, {
-      details,
+      detail2,
     });
   };
 
   return (
-    <div className="border rounded-md p-3 bg-white min-h-40 flex flex-col gap-3">
-
+    <div className="border rounded-md p-3 bg-white flex flex-col">
       <input
-        className="w-full rounded border px-2 py-1 font-semibold"
-        placeholder="タイトル"
-        value={cell.title}
-        onChange={(e) => updateTitle(e.target.value)}
+        className="w-full px-2 py-1 mb-2 font-bold"
+        placeholder="詳細1"
+        value={cell.detail1}
+        onChange={(e) => updateDetail1(e.target.value)}
       />
 
-      <div className="flex flex-col gap-2">
-        {cell.details.map((detail, index) => (
-          <input
-            key={index}
-            className="w-full rounded border px-2 py-1 text-sm"
-            placeholder={`詳細 ${index + 1}`}
-            value={detail}
-            onChange={(e) =>
-              updateDetail(index, e.target.value)
-            }
-          />
-        ))}
-      </div>
-
+       <input
+        className="w-full px-2 py-1 font-bold"
+        placeholder="詳細2"
+        value={cell.detail2}
+        onChange={(e) => updateDetail2(e.target.value)}
+      />
     </div>
   );
 }

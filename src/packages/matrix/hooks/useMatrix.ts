@@ -25,9 +25,7 @@ export function useMatrix() {
         },
 
         updateXAxis:(data:any)=>{
-
             setMatrix(m=>updateXAxis(m,data));
-
         },
 
         updateYAxis:(data:any)=>{
