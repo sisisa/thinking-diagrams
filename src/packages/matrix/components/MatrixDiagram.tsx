@@ -1,10 +1,13 @@
 "use client";
+import { useRef } from "react";
+import { toPng } from "html-to-image";
 
 import { useMatrix } from "../hooks/useMatrix";
 import MatrixAxis from "./MatrixAxis";
 import MatrixCell from "./MatrixCell";
 
 export default function MatrixDiagram() {
+  const exportRef = useRef<HTMLDivElement>(null);
   const {
     matrix,
     setMatrix,
@@ -12,6 +15,27 @@ export default function MatrixDiagram() {
     updateXAxis,
     updateYAxis,
   } = useMatrix();
+
+  // PNG化して出力する関数
+  const handlePngExport = async () => {
+    if (!exportRef.current) return;
+
+    try {
+      const dataUrl = await toPng(exportRef.current, {
+        pixelRatio: 3,
+        backgroundColor: "#ffffff",
+        cacheBust: true,
+      });
+
+      const link = document.createElement("a");
+      link.download = `${matrix.main_title || "matrix"}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (error) {
+      console.error(error);
+      alert("PNG出力に失敗しました");
+    }
+};
 
   // マトリクスのjsonデータをコピー。他の箇所に実装時は配列に格納してデータを保存出来るようにする
   const handleCopyClick = async () => {
@@ -33,16 +57,19 @@ export default function MatrixDiagram() {
   };
 
   return (
-    <div className="flex flex-col gap-8 p-8">
-      <div className="flex items-center">
-        <input
-          className="text-3xl font-bold outline-none"
-          value={matrix.main_title}
-          onChange={(e) => updateMainTitle(e.target.value)}
-        />
-      </div>
-
-      <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8 p-8">    
+      {/* PNGになる範囲 */}
+      <div
+        ref={exportRef}
+        className="flex flex-col gap-6 bg-white p-6"
+      >
+        <div className="flex items-center">
+          <input
+            className="text-3xl font-bold outline-none"
+            value={matrix.main_title}
+            onChange={(e) => updateMainTitle(e.target.value)}
+          />
+        </div>
         <MatrixAxis
           axis={matrix.xAxis}
           direction="x"
@@ -77,9 +104,7 @@ export default function MatrixDiagram() {
       <div className="flex gap-8 p-8 justify-end">
         <button
             className="text-[#333333] bg-[#FFFFFF] rounded rounded-md border py-2 w-64 justify-end"
-            onClick={() => {
-              console.log(JSON.stringify(matrix, null, 2));
-            }}
+            onClick={handlePngExport}
           >
             PNG出力
         </button>
